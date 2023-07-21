@@ -452,17 +452,14 @@ class TaskProsecutionLayer(CognitiveLayer):
         # Monitor the progress of ongoing tasks
         return {}  # Placeholder
 
-    class TaskProsecutionLayer(CognitiveLayer):
-        # Existing code...
+    def pass_up_status(self):
+        status = self.get_status()
+        self.pass_up(status)
 
-        def pass_up_status(self):
-            status = self.get_status()
-            self.pass_up(status)
-
-        def receive_request_from_above(self):
-            request = self.receive_from_above()
-            if request:
-                print(f"Received request from above: {request}")
-                # Execute the requested action and send a response
-                response = self.execute(request)
-                self.pass_up(response)
+    def receive_request_from_above(self):
+        request = self.receive_from_above()
+        if request:
+            print(f"Received request from above: {request}")
+            # Execute the requested action and send a response
+            response = self.execute(request)
+            self.pass_up(response)
