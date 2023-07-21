@@ -14,7 +14,7 @@ Layers:
 
 import configparser
 import queue
-
+from GPTModels import GPTModel
 
 class CognitiveLayer:
     """
@@ -28,6 +28,8 @@ class CognitiveLayer:
             name (str): The name of the layer.
         """
         self.name = name
+
+        self.GPTModel = GPTModel()
 
         self.up_queue = queue.Queue()
         self.down_queue = queue.Queue()
@@ -132,102 +134,335 @@ class CognitiveLayer:
 class AspirationalLayer(CognitiveLayer):
     """
     The Aspirational Layer in the cognitive architecture model.
-    Represents the mission, values, purpose, ethics, vision, and morals of the system.
+    Responsible for the mission, values, purpose, ethics, vision, and morals of the system.
     """
     def __init__(self):
         """
         Initialize the AspirationalLayer.
         """
         super().__init__(name="AspirationalLayer")
-
+        self.mission = None
+        self.values = None
 
     def process_input(self, input_data):
-        # Processes information coming up or down the layers
-        # Implement processing logic using the input data
-        # For example, you might perform some analysis or decision-making here
-        pass
+        # Some other action specific to this layer
+        processed_data = self.GPTModel.process(input_data)
+        return processed_data
 
 
     def execute(self):
         # Based on the processed data, execute relevant actions
         # For example, you might communicate the mission and values to other parts of the system
-        print(f"Executing {self.name} - Mission: {self.mission}, Values: {self.values}")
+
+        try:
+            self.process_input("something")
+
+            self.evaluate_action("something")
+
+            # Execute an action using the GPT model
+            result = self.GPTModel.execute("something")
+
+            return result
+
+        except Exception as e:
+            self.pass_up(f"Error: {str(e)}")
+
+
+    def evaluate_action(self, action):
+        # Evaluate a proposed action against the system's mission and values
+        return True  # Placeholder
+
+    def pass_down_request(self, request):
+        self.pass_down(request)
+
+    def receive_response_from_below(self):
+        response = self.receive_from_below()
+        if response:
+            print(f"Received response from below: {response}")
+            # Handle the response
 
 
 
 
 
 class GlobalStrategyLayer(CognitiveLayer):
+    """
+    The Global Strategy Layer in the cognitive architecture model.
+    Responsible for long term thinking and wider context for the system.
+    Acts like a CEO.
+    """
     def __init__(self):
         super().__init__(name="GlobalStrategyLayer")
-
+        self.strategy = None
+        self.goals = None
 
     def process_input(self, input_data):
-
-        pass
+        # Some other action specific to this layer
+        processed_data = self.GPTModel.process(input_data)
+        return processed_data
 
     def execute(self):
+        self.process_input("something")
 
-        pass
+        self.update_strategy("something")
 
+        self.generate_plan("something")
+
+        # Execute an action using the GPT model
+        result = self.GPTModel.execute("something")
+
+        return result
+
+    def update_strategy(self, feedback):
+        # Update the strategy based on feedback
+        pass  # Placeholder
+
+    def generate_plan(self):
+        # Generate a high-level strategic plan
+        return {}  # Placeholder
+
+    def pass_up_strategy(self):
+        strategy = self.get_strategy()
+        self.pass_up(strategy)
+
+    def receive_feedback_from_above(self):
+        feedback = self.receive_from_above()
+        if feedback:
+            print(f"Received feedback from above: {feedback}")
+            # Update strategy based on feedback
+
+    def pass_down_request(self, request):
+        self.pass_down(request)
+
+    def receive_response_from_below(self):
+        response = self.receive_from_below()
+        if response:
+            print(f"Received response from below: {response}")
+            # Handle the response
 
 
 class AgentModelLayer(CognitiveLayer):
+    """
+    The Agent Model Layer in the cognitive architecture model.
+    Responsible for understanding self capabilities, managing configuration and learning.
+    Acts like the ego of the system.
+    """
     def __init__(self):
         super().__init__(name="AgentModelLayer")
+        self.beliefs = {}  # A dictionary to hold the system's beliefs about other agents
+
 
 
     def process_input(self, input_data):
-
-        pass
+        # Some other action specific to this layer
+        processed_data = self.GPTModel.process(input_data)
+        return processed_data
 
     def execute(self):
+        self.process_input("something")
 
-        pass
+        self.update_beliefs("something")
+
+        self.predict_action("something")
+
+        # Execute an action using the GPT model
+        result = self.GPTModel.execute("something")
+
+        return result
+
+    def update_beliefs(self, new_information):
+        # Update the beliefs based on new information
+        pass  # Placeholder
+
+    def predict_action(self, agent):
+        # Predict the action of another agent
+        return None  # Placeholder
+
+    def pass_up_beliefs(self):
+        beliefs = self.get_beliefs()
+        self.pass_up(beliefs)
+
+    def receive_feedback_from_above(self):
+        feedback = self.receive_from_above()
+        if feedback:
+            print(f"Received feedback from above: {feedback}")
+            # Update beliefs based on feedback
+
+    def pass_down_request(self, request):
+        self.pass_down(request)
+
+    def receive_response_from_below(self):
+        response = self.receive_from_below()
+        if response:
+            print(f"Received response from below: {response}")
+            # Handle the response
 
 
 
 class ExecutiveFunctionLayer(CognitiveLayer):
+    """
+    The Executive Function Layer in the cognitive architecture model.
+    Responsible for managing planning, forecasting, directives and resources.
+    Acts like a Project Manager.
+    """
     def __init__(self):
         super().__init__(name="ExecutiveFunctionLayer")
+        self.resources = None  # A representation of available resources
+        self.actions = []  # A list of ongoing actions
 
 
     def process_input(self, input_data):
-
-        pass
+        # Some other action specific to this layer
+        processed_data = self.GPTModel.process(input_data)
+        return processed_data
 
     def execute(self):
+        self.process_input("something")
 
-        pass
+        self.initiate_action("something")
+
+        self.monitor_progress("something")
+
+        # Execute an action using the GPT model
+        result = self.GPTModel.execute("something")
+
+        return result
+
+    def initiate_action(self, action):
+        # Initiate a new action
+        pass  # Placeholder
+
+    def monitor_progress(self):
+        # Monitor the progress of ongoing actions
+        return {}  # Placeholder
+
+    def pass_up_status(self):
+        status = self.get_status()
+        self.pass_up(status)
+
+    def receive_feedback_from_above(self):
+        feedback = self.receive_from_above()
+        if feedback:
+            print(f"Received feedback from above: {feedback}")
+            # Update status based on feedback
+
+    def pass_down_request(self, request):
+        self.pass_down(request)
+
+    def receive_response_from_below(self):
+        response = self.receive_from_below()
+        if response:
+            print(f"Received response from below: {response}")
+            # Handle the response
 
 
 
 class CognitiveControlLayer(CognitiveLayer):
+    """
+    The Cognitive Control Layer in the cognitive architecture model.
+    Responsible for task switching & selection, frustration, and damping.
+    Acts like a team leader for a small operational team.
+    """
 
     def __init__(self):
         super().__init__(name="CognitiveControlLayer")
-
+        self.control_flow_state = None  # The current control flow state
 
     def process_input(self, input_data):
-
-        pass
+        # Some other action specific to this layer
+        processed_data = self.GPTModel.process(input_data)
+        return processed_data
 
     def execute(self):
+        self.process_input("something")
 
-        pass
+        self.make_decision("something")
 
+        self.update_control_flow("something")
+
+        # Execute an action using the GPT model
+        result = self.GPTModel.execute("something")
+
+        return result
+
+    def make_decision(self, input_data):
+        # Make a decision based on input data
+        return None  # Placeholder
+
+    def update_control_flow(self, decision):
+        # Update the control flow state based on a decision
+        pass  # Placeholder
+
+    def pass_up_decision(self, decision):
+        self.pass_up(decision)
+
+    def receive_feedback_from_above(self):
+        feedback = self.receive_from_above()
+        if feedback:
+            print(f"Received feedback from above: {feedback}")
+            # Update decision-making parameters based on feedback
+
+    def pass_down_request(self, request):
+        self.pass_down(request)
+
+    def receive_response_from_below(self):
+        response = self.receive_from_below()
+        if response:
+            print(f"Received response from below: {response}")
+            # Handle the response
 
 
 class TaskProsecutionLayer(CognitiveLayer):
+    """
+    The Task Prosecution Layer in the cognitive architecture model.
+    Responsible for taking one task at a time, detecting success & failure.
+    Acts as an individual team contributor.
+    """
     def __init__(self):
         super().__init__(name="TaskProsecutionLayer")
 
 
     def process_input(self, input_data):
-
-        pass
+        # Some other action specific to this layer
+        processed_data = self.GPTModel.process(input_data)
+        return processed_data
 
     def execute(self):
 
-        pass
+        try:
+            self.process_input("something")
 
+            self.initiate_task("something")
+
+            self.monitor_tasks("something")
+
+            # Execute an action using the GPT model
+            result = self.GPTModel.execute("something")
+
+            return result
+        except Exception as e:
+            self.pass_up(f"Error: {str(e)}")
+
+
+    def initiate_task(self, task):
+        # Initiate a new task
+        pass  # Placeholder
+
+    def monitor_tasks(self):
+        # Monitor the progress of ongoing tasks
+        return {}  # Placeholder
+
+    class TaskProsecutionLayer(CognitiveLayer):
+        # Existing code...
+
+        def pass_up_status(self):
+            status = self.get_status()
+            self.pass_up(status)
+
+        def receive_request_from_above(self):
+            request = self.receive_from_above()
+            if request:
+                print(f"Received request from above: {request}")
+                # Execute the requested action and send a response
+                response = self.execute(request)
+                self.pass_up(response)
