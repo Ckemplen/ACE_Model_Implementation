@@ -29,7 +29,14 @@ class LayerHierarchy(Enum):
 
 
 class CognitiveArchitecture:
+    """
+    Represents the entire cognitive architecture model.
+    Contains all layers of the model and manages data flow and execution across layers.
+    """
     def __init__(self):
+        """
+        Initialize the CognitiveArchitecture.
+        """
         # Instantiate layers
         self.aspirational_layer = AspirationalLayer()
         self.global_strategy_layer = GlobalStrategyLayer()
@@ -53,11 +60,17 @@ class CognitiveArchitecture:
         self.threads = {}
 
     def _check_thread_status(self):
+        """
+        Check the status of all threads.
+        """
         # Method to aid debug by checking on status of all threads
         for key, thread in self.threads:
             print(f'{key}: running={thread.running()}, done={thread.done()}')
 
     def start_execution(self):
+        """
+        Start the execution of all layers in separate threads.
+        """
         # Create a thread for each layer
         aspirational_thread = threading.Thread(target=self.aspirational_layer.main_loop)
         self.threads[LayerHierarchy.ASPIRATIONAL] = aspirational_thread
@@ -96,24 +109,60 @@ class CognitiveArchitecture:
 
 
     def process_input(self, input_data):
+        """
+        Process input data at a specific layer.
+
+        Args:
+            layer_hierarchy (LayerHierarchy): The hierarchy of the layer to process the input data.
+            input_data: The input data to be processed.
+        """
         # Implement how the input data flows through the layers
         # e.g.,
         pass
 
     def execute(self):
+        """
+        Execute actions at a specific layer.
+
+        Args:
+            layer_hierarchy (LayerHierarchy): The hierarchy of the layer to execute actions.
+        """
         # Implement how execution happens across the layers
         # e.g.,
         pass
 
     def pass_up(self, layer_hierarchy: LayerHierarchy, data):
+        """
+        Pass data up to a specific layer.
+
+        Args:
+            layer_hierarchy (LayerHierarchy): The hierarchy of the layer to pass data up to.
+            data: The data to pass up.
+        """
         layer = self.get_layer_by_hierarchy(layer_hierarchy)
         layer.pass_up(data)
 
     def pass_down(self, layer_hierarchy: LayerHierarchy, data):
+        """
+        Pass data down to a specific layer.
+
+        Args:
+            layer_hierarchy (LayerHierarchy): The hierarchy of the layer to pass data down to.
+            data: The data to pass down.
+        """
         layer = self.get_layer_by_hierarchy(layer_hierarchy)
         layer.pass_down(data)
 
     def get_layer_by_hierarchy(self, hierarchy: LayerHierarchy):
+        """
+        Get a layer by its hierarchy.
+
+        Args:
+            layer_hierarchy (LayerHierarchy): The hierarchy of the layer to get.
+
+        Returns:
+            The layer with the specified hierarchy.
+        """
         if hierarchy == LayerHierarchy.ASPIRATIONAL:
             return self.aspirational_layer
         elif hierarchy == LayerHierarchy.GLOBAL_STRATEGY:

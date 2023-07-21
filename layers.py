@@ -17,7 +17,16 @@ import queue
 
 
 class CognitiveLayer:
+    """
+    Base class for all layers in the cognitive architecture model.
+    """
     def __init__(self, name):
+        """
+        Initialize the CognitiveLayer.
+
+        Args:
+            name (str): The name of the layer.
+        """
         self.name = name
 
         self.up_queue = queue.Queue()
@@ -36,22 +45,52 @@ class CognitiveLayer:
             setattr(self, key, value)
 
     def pass_up(self, data):
+        """
+        Pass data up to the layer above.
+
+        Args:
+            data: The data to pass up.
+        """
         self.up_queue.put(data)
 
     def pass_down(self, data):
+        """
+        Pass data down to the layer below.
+
+        Args:
+            data: The data to pass down.
+        """
         self.down_queue.put(data)
 
     def receive_from_above(self):
+        """
+        Receive data from the layer above.
+
+        Returns:
+            The data from the layer above, or None if the up_queue is empty.
+        """
         if not self.up_queue.empty():
             return self.up_queue.get()
         return None
 
     def receive_from_below(self):
+        """
+        Receive data from the layer below.
+
+        Returns:
+            The data from the layer below, or None if the down_queue is empty.
+        """
         if not self.down_queue.empty():
             return self.down_queue.get()
         return None
 
     def _validate_and_update(self, config_dict):
+        """
+        Validate and update the state changes.
+
+        Args:
+            config_dict (dict): A dictionary containing the state changes.
+        """
         # Validate the config_dict to ensure it contains valid keys
         for key in config_dict:
             if not hasattr(self, key):
@@ -62,6 +101,12 @@ class CognitiveLayer:
             setattr(self, key, value)
 
     def amend_state(self, config_dict):
+        """
+        Amend the state of the layer.
+
+        Args:
+            new_state (dict): A dictionary containing the new state of the layer.
+        """
         # method to amend state at execution time by passing in a dictionary with new values
         if not isinstance(config_dict, dict):
             raise ValueError("amend_state: config_dict should be a dictionary.")
@@ -69,9 +114,15 @@ class CognitiveLayer:
         self._validate_and_update(config_dict)
 
     def process_input(self, input_data):
+        """
+        Process the input data for the layer. This method should be implemented in each subclass.
+        """
         raise NotImplementedError("Subclasses must implement process_input method.")
 
     def execute(self):
+        """
+        Execute actions for the layer. This method should be implemented in each subclass.
+        """
         raise NotImplementedError("Subclasses must implement execute method.")
 
 
@@ -79,7 +130,14 @@ class CognitiveLayer:
 
 
 class AspirationalLayer(CognitiveLayer):
+    """
+    The Aspirational Layer in the cognitive architecture model.
+    Represents the mission, values, purpose, ethics, vision, and morals of the system.
+    """
     def __init__(self):
+        """
+        Initialize the AspirationalLayer.
+        """
         super().__init__(name="AspirationalLayer")
 
 
