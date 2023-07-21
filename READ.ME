@@ -8,3 +8,17 @@ Finite context length: The restricted context capacity limits the inclusion of h
 Challenges in long-term planning and task decomposition: Planning over a lengthy history and effectively exploring the solution space remain challenging. LLMs struggle to adjust plans when faced with unexpected errors, making them less robust compared to humans who learn from trial and error.
 
 Reliability of natural language interface: Current agent system relies on natural language as an interface between LLMs and external components such as memory and tools. However, the reliability of model outputs is questionable, as LLMs may make formatting errors and occasionally exhibit rebellious behavior (e.g. refuse to follow an instruction). Consequently, much of the agent demo code focuses on parsing model output.
+
+Providing an upfront estimate of the time commitment and outlining the steps of the process can help set user expectations and improve the user experience. Here's how this could work with the ACE model:
+
+Initial Assessment: When a new task is initiated, the ACE model could make an initial assessment of the information it needs from the user and estimate how much time the user interaction will take. This could be based on the complexity of the task, the amount of information needed, and the model's previous experiences with similar tasks.
+
+User Interaction Plan: The ACE model could then generate a user interaction plan, which outlines the steps of the process and estimates when user input will be needed. This plan could be presented to the user as a checklist or timeline.
+
+Progress Updates: As the task progresses, the ACE model could provide updates to the user, including completed steps, upcoming steps that require user input, and any changes to the estimated timeline.
+
+Adaptive Planning: The ACE model could also adapt the plan as needed based on user feedback and the progress of the task. For example, if a step takes longer than expected or if the user provides additional information that changes the scope of the task, the ACE model could update the plan and notify the user.
+
+This approach can help make the process more transparent to the user and give them a sense of control and involvement. It also allows the ACE model to manage its tasks more effectively and efficiently, as it can plan its activities around the times when user input is expected.
+
+Implementing this functionality would likely involve adding new capabilities to the ACE model. For example, you might add a capability for estimating user interaction time, a capability for generating a user interaction plan, and a capability for updating the plan based on progress and feedback.
