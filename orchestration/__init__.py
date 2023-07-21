@@ -1,5 +1,9 @@
 """
-Brings together the various layers to act in concert.
+Brings together the various layers of the Autonomous Cognitive Entity (ACE) model to act in concert.
+
+The ACE model is inspired by the OSI model to present layers of abstraction by which you can think about artificial
+cognitive architectures. The primary purpose of the ACE model is to provide a framework for thinking about
+autonomous, agentic systems.
 
 Layers:
 
@@ -10,8 +14,11 @@ Layers:
 - 5 Cognitive Control: Task switching & selection, frustration, damping
 - 6 Task Prosecution: One task at a time, detect success & failure
 
+ACE model is a creation of Dave Shapiro: https://github.com/daveshap/Benevolent_AGI
+This implementation is authored by Chris Kemplen: https://github.com/Ckemplen/ACE_Model_Implementation/
 """
 
+import logging
 import threading
 from enum import Enum
 
@@ -33,6 +40,7 @@ class CognitiveArchitecture:
     Represents the entire cognitive architecture model.
     Contains all layers of the model and manages data flow and execution across layers.
     """
+
     def __init__(self):
         """
         Initialize the CognitiveArchitecture.
@@ -58,6 +66,32 @@ class CognitiveArchitecture:
         self.task_prosecution_layer.up_queue = self.cognitive_control_layer.down_queue
 
         self.threads = {}
+
+        self.logger = logging.getLogger('Orchestration')  # Create a logger for orchestration
+        self.logger.setLevel(logging.DEBUG)  # Set the logging level
+
+        # Create a console handler
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.DEBUG)
+
+        # Create a file handler
+        fh = logging.FileHandler('application.log')
+        fh.setLevel(logging.DEBUG)
+
+        # Create a formatter
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+        # Add the formatter to the console handler
+        ch.setFormatter(formatter)
+
+        # Add the formatter to the file handler
+        fh.setFormatter(formatter)
+
+        # Add the console handler to the logger
+        self.logger.addHandler(ch)
+
+        # Add the file handler to the logger
+        self.logger.addHandler(fh)
 
     def _check_thread_status(self):
         """
@@ -90,7 +124,6 @@ class CognitiveArchitecture:
         task_prosecution_thread = threading.Thread(target=self.task_prosecution_layer.main_loop)
         self.threads[LayerHierarchy.TASK_PROSECUTION] = task_prosecution_thread
 
-
         # Start all threads
         aspirational_thread.start()
         global_strategy_thread.start()
@@ -106,7 +139,6 @@ class CognitiveArchitecture:
         executive_function_thread.join()
         cognitive_control_thread.join()
         task_prosecution_thread.join()
-
 
     def process_input(self, input_data):
         """
