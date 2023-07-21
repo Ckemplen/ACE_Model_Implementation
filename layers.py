@@ -23,6 +23,18 @@ class CognitiveLayer:
         self.up_queue = queue.Queue()
         self.down_queue = queue.Queue()
 
+        # Read the config file
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        layer_config = config[self.name]
+
+        # Set the layer-specific attributes dynamically based on the keys in the config section
+        for key, value in layer_config.items():
+            # Split on ', ' if the value is a list
+            if ', ' in value:
+                value = value.split(', ')
+            setattr(self, key, value)
+
     def pass_up(self, data):
         self.up_queue.put(data)
 
@@ -56,20 +68,6 @@ class CognitiveLayer:
 
         self._validate_and_update(config_dict)
 
-    def set_up_callback(self, callback):
-        self.up_callback = callback
-
-    def set_down_callback(self, callback):
-        self.down_callback = callback
-
-    def pass_up(self, data):
-        if hasattr(self, 'up_callback') and callable(self.up_callback):
-            self.up_callback(data)
-
-    def pass_down(self, data):
-        if hasattr(self, 'down_callback') and callable(self.down_callback):
-            self.down_callback(data)
-
     def process_input(self, input_data):
         raise NotImplementedError("Subclasses must implement process_input method.")
 
@@ -82,14 +80,7 @@ class CognitiveLayer:
 
 class AspirationalLayer(CognitiveLayer):
     def __init__(self):
-        super().__init__(name="Aspirational Layer")
-
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        layer_config = config['AspirationalLayer']
-
-        self.mission: str = layer_config.get('mission')
-        self.values: list = layer_config.get('values').split(', ')
+        super().__init__(name="AspirationalLayer")
 
 
     def process_input(self, input_data):
@@ -110,14 +101,8 @@ class AspirationalLayer(CognitiveLayer):
 
 class GlobalStrategyLayer(CognitiveLayer):
     def __init__(self):
-        super().__init__(name="Global Strategy Layer")
+        super().__init__(name="GlobalStrategyLayer")
 
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        layer_config = config['GlobalStrategyLayer']
-
-        self.long_term_goals: list = layer_config.get('long_term_goals').split(', ')
-        self.context: list = layer_config.get('context').split(', ')
 
     def process_input(self, input_data):
 
@@ -131,14 +116,8 @@ class GlobalStrategyLayer(CognitiveLayer):
 
 class AgentModelLayer(CognitiveLayer):
     def __init__(self):
-        super().__init__(name="Agent Model Layer")
+        super().__init__(name="AgentModelLayer")
 
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        layer_config = config['AgentModelLayer']
-
-        self.capabilities: list = layer_config.get('capabilities').split(', ')
-        self.learning_methods: list = layer_config.get('learning_methods').split(', ')
 
     def process_input(self, input_data):
 
@@ -152,14 +131,8 @@ class AgentModelLayer(CognitiveLayer):
 
 class ExecutiveFunctionLayer(CognitiveLayer):
     def __init__(self):
-        super().__init__(name="Executive Function Layer")
+        super().__init__(name="ExecutiveFunctionLayer")
 
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        layer_config = config['ExecutiveFunctionLayer']
-
-        self.planning_data: list = layer_config.get('planning_data').split(', ')
-        self.forecasting_models: list = layer_config.get('forecasting_models').split(', ')
 
     def process_input(self, input_data):
 
@@ -174,14 +147,8 @@ class ExecutiveFunctionLayer(CognitiveLayer):
 class CognitiveControlLayer(CognitiveLayer):
 
     def __init__(self):
-        super().__init__(name="Cognitive Control Layer")
+        super().__init__(name="CognitiveControlLayer")
 
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        layer_config = config['CognitiveControlLayer']
-
-        self.long_term_goals: list = layer_config.get('task_switching_mechanisms').split(', ')
-        self.context: int = layer_config.get('frustration_threshold')
 
     def process_input(self, input_data):
 
@@ -195,14 +162,8 @@ class CognitiveControlLayer(CognitiveLayer):
 
 class TaskProsecutionLayer(CognitiveLayer):
     def __init__(self):
-        super().__init__(name="Task Prosecution Layer")
+        super().__init__(name="TaskProsecutionLayer")
 
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        layer_config = config['TaskProsecutionLayer']
-
-        self.current_task: str = layer_config.get('current_task')
-        self.success_detection: list = layer_config.get('success_detection').split(', ')
 
     def process_input(self, input_data):
 

@@ -12,6 +12,7 @@ Layers:
 
 """
 
+import threading
 from enum import Enum
 
 from layers import (AspirationalLayer, GlobalStrategyLayer, AgentModelLayer, ExecutiveFunctionLayer,
@@ -37,19 +38,71 @@ class CognitiveArchitecture:
         self.cognitive_control_layer = CognitiveControlLayer()
         self.task_prosecution_layer = TaskProsecutionLayer()
 
-        # Set up callbacks or input/output queues between layers
-        for layer in [self.aspirational_layer, self.global_strategy_layer, self.agent_model_layer,
-                      self.executive_function_layer, self.cognitive_control_layer, self.task_prosecution_layer]:
-            layer.set_down_callback(self.global_strategy_layer.process_input)
+        # Set up input/output queues between layers
+        self.aspirational_layer.down_queue = self.global_strategy_layer.up_queue
+        self.global_strategy_layer.up_queue = self.aspirational_layer.down_queue
+        self.global_strategy_layer.down_queue = self.agent_model_layer.up_queue
+        self.agent_model_layer.up_queue = self.global_strategy_layer.down_queue
+        self.agent_model_layer.down_queue = self.executive_function_layer.up_queue
+        self.executive_function_layer.up_queue = self.agent_model_layer.down_queue
+        self.executive_function_layer.down_queue = self.cognitive_control_layer.up_queue
+        self.cognitive_control_layer.up_queue = self.executive_function_layer.down_queue
+        self.cognitive_control_layer.down_queue = self.task_prosecution_layer.up_queue
+        self.task_prosecution_layer.up_queue = self.cognitive_control_layer.down_queue
+
+        self.threads = {}
+
+    def _check_thread_status(self):
+        # Method to aid debug by checking on status of all threads
+        for key, thread in self.threads:
+            print(f'{key}: running={thread.running()}, done={thread.done()}')
+
+    def start_execution(self):
+        # Create a thread for each layer
+        aspirational_thread = threading.Thread(target=self.aspirational_layer.main_loop)
+        self.threads[LayerHierarchy.ASPIRATIONAL] = aspirational_thread
+
+        global_strategy_thread = threading.Thread(target=self.global_strategy_layer.main_loop)
+        self.threads[LayerHierarchy.GLOBAL_STRATEGY] = global_strategy_thread
+
+        agent_model_thread = threading.Thread(target=self.agent_model_layer.main_loop)
+        self.threads[LayerHierarchy.AGENT_MODEL] = agent_model_thread
+
+        executive_function_thread = threading.Thread(target=self.executive_function_layer.main_loop)
+        self.threads[LayerHierarchy.EXECUTIVE_FUNCTION] = executive_function_thread
+
+        cognitive_control_thread = threading.Thread(target=self.cognitive_control_layer.main_loop)
+        self.threads[LayerHierarchy.COGNITIVE_CONTROL] = cognitive_control_thread
+
+        task_prosecution_thread = threading.Thread(target=self.task_prosecution_layer.main_loop)
+        self.threads[LayerHierarchy.TASK_PROSECUTION] = task_prosecution_thread
+
+
+        # Start all threads
+        aspirational_thread.start()
+        global_strategy_thread.start()
+        agent_model_thread.start()
+        executive_function_thread.start()
+        cognitive_control_thread.start()
+        task_prosecution_thread.start()
+
+        # Wait for all threads to finish
+        aspirational_thread.join()
+        global_strategy_thread.join()
+        agent_model_thread.join()
+        executive_function_thread.join()
+        cognitive_control_thread.join()
+        task_prosecution_thread.join()
+
 
     def process_input(self, input_data):
         # Implement how the input data flows through the layers
-        # e.g., layer_output = self.aspirational_layer.process_input(input_data)
+        # e.g.,
         pass
 
     def execute(self):
         # Implement how execution happens across the layers
-        # e.g., self.global_strategy_layer.execute()
+        # e.g.,
         pass
 
     def pass_up(self, layer_hierarchy: LayerHierarchy, data):
