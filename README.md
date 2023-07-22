@@ -10,7 +10,7 @@
   - [GUI and UX](#gui-and-ux)
 
 ## Overview ##
-The aim is to create a python implementation of the ACE model that is modular in nature so that it is easier for the program to be polymorphic and also easier to be slotted into various forms of deployment and UI depending on the use case. This implementation uses the ACE model as the high level architecture and structure of the program, uses Langchain for more low level management of prompt engineering and interfacing with LLMs, and then will use the concepts of Resources and Capabilities to abstract away the lower level functionality. The program should then think in terms of resources and capabilities.
+The aim is to create a python implementation of the ACE model that is modular in nature so that LLMs / resources / capabilities can be swapped in and out. A modular design should also make it is easier for the program to implement polymorphic features, and also easier to be slotted into various forms of deployment and UI depending on the use case. This implementation uses the ACE model as the high level architecture and structure of the program, uses Langchain for more low level management of prompt engineering and interfacing with LLMs, and then will use the concepts of Resources and Capabilities to abstract away the lower level functionality. The program should then think in terms of resources and capabilities.
 
 ### Sources ###
 Weng, Lilian. (Jun 2023). LLM-powered Autonomous Agents". Lil’Log. https://lilianweng.github.io/posts/2023-06-23-agent/.
