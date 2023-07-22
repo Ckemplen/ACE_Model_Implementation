@@ -172,11 +172,17 @@ class CognitiveLayer:
     def process_input(self, input_data):
         """
         Process the input data for the layer. This method should be implemented in each subclass.
+        Run all the various workflow chains etc. and prepare everything necessary for self.execute() to come next
+        Part of highest level common interface, encapsulates all processing logic that is bespoke to each layer.
         """
         raise NotImplementedError("Subclasses must implement process_input method.")
 
     def execute(self):
         """
         Execute actions for the layer. This method should be implemented in each subclass.
+        Does something with the work processed and prepared via process input.
+        Part of highest level common interface, encapsulates all execution logic that is bespoke to each layer.
         """
         raise NotImplementedError("Subclasses must implement execute method.")
+
+

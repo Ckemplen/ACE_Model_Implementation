@@ -3,6 +3,7 @@
 - [Overview](#overview)
   - [Sources](#sources)
   - [Limitations](#limitations)
+  - [Key Concepts](#key-concepts)
   - [UX Ideas](#potential-ux)
   - [Development Goals & Test Use Cases](#development-goals-and-test-use-cases-ideas)
 - [Contribute](#contribute)
@@ -42,6 +43,65 @@ Providing an upfront estimate of the time commitment and outlining the steps of 
 This approach can help make the process more transparent to the user and give them a sense of control and involvement. It also allows the ACE model to manage its tasks more effectively and efficiently, as it can plan its activities around the times when user input is expected.
 
 Implementing this functionality would likely involve adding new capabilities to the ACE model. For example, you might add a capability for estimating user interaction time, a capability for generating a user interaction plan, and a capability for updating the plan based on progress and feedback.
+
+### Key concepts ###
+
+#### The ACE Model ####
+The ACE model is inspired by the OSI model to present layers of abstraction by which you can think about artificial
+cognitive architectures. The primary purpose of the ACE model is to provide a framework for thinking about
+autonomous, agentic systems.
+
+Layers:
+
+1) Aspirational Layer: Mission, values, purpose, ethics, vision, morals
+2) Global Strategy: Long term thinking, context, like a CEO
+3) Agent Model: (Self) Capabilities, configuration, learning
+4) Executive Function: Planning, forecasting, directives, resources
+5) Cognitive Control: Task switching & selection, frustration, damping
+6) Task Prosecution: One task at a time, detect success & failure
+
+#### Resources ####
+Covers various tangible and intangible resources, primarily consumption of knowledge and consumption of currency, 
+but also potentially consumption of cloud resources if it fits the use case.
+
+Example: CurrencyResource tracks the amount of USD assigned to the layer to spend on LLM API calls, other API costs etc.
+
+Example: SemanticMemoryResource would provide a knowledge base of various topics and facts of relevance.
+
+Example: WorldStatesRssFeedsResource provides knowledge of up-to-date news from RSS feeds.
+
+The resources, capabilities and products concepts are not technically intended to be a hierarchy, although arguably
+resources would sit at the bottom of the hierarchy as a base input that is consumed by higher levels. A principle of 
+the implementation is that consumption of resources should be explicitly documented and reported to the user, the 
+Resource entities therefore are intended to do a lot of the legwork on documenting consumption.
+
+#### Capabilities ####
+Covers abstraction and encapsulation of various workflows that can take an action, using or creating resources if necessary.
+
+Example: InitialAssessmentCapability would cover the various work needed to gather requirements to be used for 
+creating a UserInteractionPlan product.
+
+Example: MermaidGanttChartCapability would be able to generate gantt charts for use in products, drawing on other 
+resources or products to inform what is needed.
+
+Resources are unlikely to use capabilities, but Capabilities are likely to consume and create new resources, 
+Capabilities are also the only entity able to create Products.
+
+#### Products ####
+Products encapsulate and abstract the logic for combining Resources and Capabilities to produce tangible useful 
+outputs of the program.
+
+Example: as part of professional project management, during the project initiation phase various products would be 
+produced, such as BusinessCaseProduct, BudgetProposalProduct, ProjectCharterProduct etc etc.
+
+Example: a finished word doc containing a CV created by the model, or a research report, or another professional doc.
+
+Example: a Word doc / PDF / Powerpoint etc combining prose and charts etc. 
+
+The key idea is Products should be things of real world value to the user that involve a multi-step process that the 
+user would otherwise have to work on themselves. They bring together existing Capabilities and Resources of the model 
+and serve to indicate whether there is a need for dynamically created new classes based on the user need.
+
 
 ### Development Goals and Test Use Cases Ideas ###
 
