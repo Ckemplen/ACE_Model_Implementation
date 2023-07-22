@@ -3,9 +3,9 @@
 - [Overview](#overview)
   - [Sources](#sources)
   - [Limitations](#limitations)
-  - [Key Concepts](#key-concepts)
   - [UX Ideas](#potential-ux)
   - [Workflow Illustration](#workflow-illustration)
+  - [Key Concepts](#key-concepts)
   - [Development Goals & Test Use Cases](#development-goals-and-test-use-cases-ideas)
 - [Contribute](#contribute)
   - [Core functionality for architecture](#core-functionality-for-architecture)
@@ -136,6 +136,38 @@ The key idea is Products should be things of real world value to the user that i
 user would otherwise have to work on themselves. They bring together existing Capabilities and Resources of the model 
 and serve to indicate whether there is a need for dynamically created new classes based on the user need.
 
+#### How resources, capabilities and products (RCPs) fit into the overall program workflow ####
+1. **User Commission Phase**
+    - User provides initial commission to the model.
+    - `CurrencyResource` is used to budget for the incoming task.
+    - `ExecutiveFunctionLayer` performs an initial assessment using `InitialAssessmentCapability`.
+    - `AgentModelLayer` reviews the initial assessment and identifies if any new Resources, Capabilities, and Products (RCPs) are needed to complete the task.
+
+2. **Initial Assessment and User Interaction Plan Creation Phase**
+    - `ExecutiveFunctionLayer` creates a User Interaction Plan with the help of `AgentModelLayer` and `CognitiveControlLayer`.
+    - During this phase, if a need for a new resource, capability, or product is identified, it's created dynamically and integrated into the model.
+    - New RCPs are reviewed and approved by the higher layers (`GlobalStrategyLayer`, `AspirationalLayer`).
+
+3. **Requirements Gathering Phase**
+    - The `ExecutiveFunctionLayer` interacts with the user according to the User Interaction Plan to gather necessary information and requirements.
+    - If during this interaction it becomes apparent that a new capability or resource is needed, it's created dynamically.
+    - New RCPs are again reviewed and approved by the higher layers.
+
+4. **Product Building Phase**
+    - Once enough information has been gathered, the `ExecutiveFunctionLayer` initiates the task execution in collaboration with the `CognitiveControlLayer`.
+    - If a new product type is required to meet the user's needs, it's created dynamically during this phase.
+    - New RCPs are reviewed and approved by the higher layers.
+
+5. **Iteration and Feedback Phase**
+    - During product building, the `ExecutiveFunctionLayer` checks in with the user to provide updates and gather feedback.
+    - Feedback may lead to creating more resources or adjusting the capabilities used in the product building, which are again reviewed and approved by the higher layers.
+
+6. **Final Review and Sign Off Phase**
+    - Once the product is built, the `ExecutiveFunctionLayer` presents the final suite of products to the user for review.
+    - The user provides final feedback, which is passed up through the layers.
+    - Based on the feedback, the model might need to adjust resources, use different capabilities, create new versions of the products, or even create new RCPs, which would again be reviewed and approved by the higher layers.
+
+
 
 ### Development Goals and Test Use Cases Ideas ###
 
@@ -185,15 +217,20 @@ Implement Specific Layer Classes:
 * Develop the specific functionalities of each cognitive layer (AspirationalLayer, GlobalStrategyLayer, AgentModelLayer, ExecutiveFunctionLayer, CognitiveControlLayer, and TaskProsecutionLayer).
 * For each layer, implement the process_input, execute, and other necessary methods.
 
-Develop the Capability Classes:
+Develop the built-in Capability Classes:
 
 * Flesh out the EthicalDecisionMakingCapability class with real decision-making logic.
 * Add more capabilities as required by the different layers, and ensure they adhere to the Capability class structure.
 
-Develop the Resource Classes:
+Develop the built-in Resource Classes:
 
 * Develop the CurrencyResource and SemanticMemoryResource classes with their specific functionalities.
 * Add more resources as required by the different layers, and ensure they adhere to the Resource class structure.
+
+Develop the built-in Product classes:
+
+* Flesh out the various project initiation product classes with their requirements and formats
+* Add new built in products as part of thinking through new use cases / test cases
 
 Implement User Interaction Functionality:
 
