@@ -5,6 +5,7 @@
   - [Limitations](#limitations)
   - [Key Concepts](#key-concepts)
   - [UX Ideas](#potential-ux)
+  - [Workflow Illustration](#workflow-illustration)
   - [Development Goals & Test Use Cases](#development-goals-and-test-use-cases-ideas)
 - [Contribute](#contribute)
   - [Core functionality for architecture](#core-functionality-for-architecture)
@@ -43,6 +44,39 @@ Providing an upfront estimate of the time commitment and outlining the steps of 
 This approach can help make the process more transparent to the user and give them a sense of control and involvement. It also allows the ACE model to manage its tasks more effectively and efficiently, as it can plan its activities around the times when user input is expected.
 
 Implementing this functionality would likely involve adding new capabilities to the ACE model. For example, you might add a capability for estimating user interaction time, a capability for generating a user interaction plan, and a capability for updating the plan based on progress and feedback.
+
+### Workflow Illustration ###
+1. **User Commission Phase**
+    - User provides initial commission to the model.
+    - `ExecutiveFunctionLayer` receives the commission, performs an initial assessment with input from the `AgentModelLayer` (understanding capabilities) and the `CognitiveControlLayer` (assessing task feasibility and control), and develops a high-level plan.
+    - `AspirationalLayer` and `GlobalStrategyLayer` review the plan for alignment with values and strategies, respectively.
+  
+2. **Initial Assessment and User Interaction Plan Creation Phase**
+    - `ExecutiveFunctionLayer` creates a User Interaction Plan in collaboration with the `AgentModelLayer` and the `CognitiveControlLayer`.
+    - Higher layers (`AgentModelLayer`, `GlobalStrategyLayer`, `AspirationalLayer`) review and approve the plan.
+    - The approved plan is then passed to the `CognitiveControlLayer` which prepares to execute the plan.
+
+3. **Requirements Gathering Phase**
+    - The `ExecutiveFunctionLayer` interacts with the user according to the User Interaction Plan to gather necessary information and requirements.
+    - The information is reviewed by `AgentModelLayer` (for checking against capabilities) and `CognitiveControlLayer` (for assessing task implications and control).
+    
+4. **Product Building Phase**
+    - Once enough information has been gathered, the `ExecutiveFunctionLayer` initiates the task execution in collaboration with the `CognitiveControlLayer`.
+    - The `CognitiveControlLayer` selects the task and delegates the actual execution to the `TaskProsecutionLayer`.
+    - The `TaskProsecutionLayer` focuses on one task at a time, executing the task and detecting success or failure.
+    - The product building phase is monitored by all layers. Each layer can intervene and make decisions based on its area of concern.
+
+5. **Iteration and Feedback Phase**
+    - During product building, the `ExecutiveFunctionLayer` checks in with the user to provide updates and gather feedback, with input from `AgentModelLayer` and `CognitiveControlLayer`.
+    - The feedback is passed up through the layers, and each layer responds based on its area of concern.
+    - The `CognitiveControlLayer` uses the feedback to decide when to switch tasks, with input from `ExecutiveFunctionLayer` and `AgentModelLayer`.
+
+6. **Final Review and Sign Off Phase**
+    - Once the product is built, the `ExecutiveFunctionLayer` presents the final suite of products to the user for review, with input from `AgentModelLayer` and `CognitiveControlLayer`.
+    - The user provides final feedback, which is passed up through the layers.
+    - `AspirationalLayer` and `GlobalStrategyLayer` review the final products for alignment with values and strategies, respectively.
+    - If the feedback is positive and the user signs off on the product, the commission is considered complete. If the user has additional feedback or changes, the model goes back to the Iteration and Feedback Phase.
+
 
 ### Key concepts ###
 
