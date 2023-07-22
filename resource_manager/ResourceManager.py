@@ -8,11 +8,12 @@ class ResourceManager:
     Class to manage resources.
     """
 
-    def __init__(self):
+    def __init__(self, creator):
         """
         Initialize the ResourceManager.
         """
         self.resources = {}  # Dictionary to store the resources
+        self.creator = creator
 
     def add_resource(self, name, resource):
         """

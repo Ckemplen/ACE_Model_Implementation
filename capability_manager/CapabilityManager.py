@@ -8,11 +8,12 @@ class CapabilityManager:
     Class to manage capabilities.
     """
 
-    def __init__(self):
+    def __init__(self, creator):
         """
         Initialize the CapabilityManager.
         """
         self.capabilities = {}  # Dictionary to store the capabilities
+        self.creator = creator
 
     def add_capability(self, name, capability: Capability):
         """

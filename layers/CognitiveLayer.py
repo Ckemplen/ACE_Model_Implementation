@@ -22,9 +22,10 @@ import configparser
 import logging
 import queue
 
-from capability_manager import CapabilityManager
 from reasoning_engines.GPTModels import GPTModel
+from capability_manager import CapabilityManager
 from resource_manager import ResourceManager
+from product_manager import ProductManager
 
 
 class CognitiveLayer:
@@ -58,8 +59,9 @@ class CognitiveLayer:
                 value = value.split(', ')
             setattr(self, key, value)
 
-        self.capabilities = CapabilityManager()  # store the capabilities of the layer
-        self.resources = ResourceManager()  # store the resources available to the layer
+        self.capabilities = CapabilityManager(creator=self.name)  # store the capabilities of the layer
+        self.resources = ResourceManager(creator=self.name)  # store the resources available to the layer
+        self.products = ProductManager(creator=self.name) # store the products of the layer
 
         self.total_tokens: int = 0
         self.total_cost: float = 0

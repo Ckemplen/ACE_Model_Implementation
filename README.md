@@ -14,6 +14,8 @@ The aim is to create a python implementation of the Autonomous Cognitive Entity 
 
 **At this stage the project is simply a skeleton representation in python of the architecture and concepts, not a working program. There is a lot to flesh out before there is a running MVP.**
 
+I should also caveat that I do not expect this model to be viable **yet**, the limitations of context window and API costs will throttle the throughput of data required for this to be a transformational tool. While I fully expect the cost of API calls to come down significantly, and that context window sizes will grow exponentially, we just aren't there yet - however the idea is to be fully ready to plug in these advancements once they do arrive.
+
 ### Sources ###
 Weng, Lilian. (Jun 2023). LLM-powered Autonomous Agents". Lil’Log. https://lilianweng.github.io/posts/2023-06-23-agent/.
 

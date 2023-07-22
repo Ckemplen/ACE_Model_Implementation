@@ -9,11 +9,12 @@ class ProductManager:
     Class to manage products.
     """
 
-    def __init__(self):
+    def __init__(self, creator):
         """
         Initialize the ProductManager.
         """
         self.products = {}  # Dictionary to store the products
+        self.creator = creator
 
     def add_product(self, name, product: Product):
         """
