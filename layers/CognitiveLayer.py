@@ -186,3 +186,66 @@ class CognitiveLayer:
         raise NotImplementedError("Subclasses must implement execute method.")
 
 
+    def review_resouces(self):
+        """
+        Review the resources the layer has access to and judge if any other resources required for current mission.
+        """
+
+        raise NotImplementedError("Subclasses must implement review_resources method.")
+
+    def review_capabilities(self):
+        """
+        Review the capabilities the layer has access to and judge if any other capabilities required for current mission.
+        """
+
+        raise NotImplementedError("Subclasses must implement review_capabilities method.")
+
+    def review_products(self):
+        """
+        Review the products the layer is working on / has produced / is passed by other layers.
+        """
+
+        raise NotImplementedError("Subclasses must implement review_products method.")
+
+    def request_resources(self):
+        """
+        Requests any resources needed for the task at  hand.
+        """
+
+        raise NotImplementedError("Subclasses must implement request_resources method.")
+
+    def request_capabilities(self):
+        """
+        Requests any capabilities needed for the task at hand.
+        """
+
+        raise NotImplementedError("Subclasses must implement request_capabilities method.")
+
+    def request_products(self):
+        """
+        Request the products required to move forward with the mission.
+        """
+
+        raise NotImplementedError("Subclasses must implement request_products method.")
+
+    def create_resource(self):
+        """
+        Creates a new or expanded resource.
+        """
+
+        raise NotImplementedError("Subclasses must implement create_resource method.")
+
+    def create_capability(self):
+        """
+        Creates a new or expanded capability.
+        """
+
+        raise NotImplementedError("Subclasses must implement create_capability method.")
+
+    def create_product(self):
+        """
+        Creates a new or expanded product.
+        """
+
+        raise NotImplementedError("Subclasses must implement create_product method.")
+
