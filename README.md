@@ -1,23 +1,23 @@
 # An ACE Model Python Implementation #
 
-- [Overview](#overview-)
-  - [Sources](#sources-)
-  - [Limitations](#limitations-)
-  - [UX Ideas](#potential-ux-)
-  - [Development Goals & Test Use Cases](#development-goals-and-test-use-cases-ideas-)
-- [Contribute](#contribute-)
-    - [Core functionality for architecture](#core-functionality-for-architecture-)
-    - [GUI and UX](#gui-and-ux-)
+- [Overview](#overview)
+  - [Sources](#sources)
+  - [Limitations](#limitations)
+  - [UX Ideas](#potential-ux)
+  - [Development Goals & Test Use Cases](#development-goals-and-test-use-cases-ideas)
+- [Contribute](#contribute)
+  - [Core functionality for architecture](#core-functionality-for-architecture)
+  - [GUI and UX](#gui-and-ux)
 
 ## Overview ##
 The aim is to create a python implementation of the ACE model that is modular in nature so that it is easier for the program to be polymorphic and also easier to be slotted into various forms of deployment and UI depending on the use case. This implementation uses the ACE model as the high level architecture and structure of the program, uses Langchain for more low level management of prompt engineering and interfacing with LLMs, and then will use the concepts of Resources and Capabilities to abstract away the lower level functionality. The program should then think in terms of resources and capabilities.
 
-### Sources: ###
+### Sources ###
 Weng, Lilian. (Jun 2023). LLM-powered Autonomous Agents". Lil’Log. https://lilianweng.github.io/posts/2023-06-23-agent/.
 
 ACE model is a creation of Dave Shapiro: https://github.com/daveshap/Benevolent_AGI
 
-### Limitations: ###
+### Limitations ###
 **Finite context length**: The restricted context capacity limits the inclusion of historical information, detailed instructions, API call context, and responses. The design of the system has to work with this limited communication bandwidth, while mechanisms like self-reflection to learn from past mistakes would benefit a lot from long or infinite context windows. Although vector stores and retrieval can provide access to a larger knowledge pool, their representation power is not as powerful as full attention.
 
 **Challenges in long-term planning and task decomposition**: Planning over a lengthy history and effectively exploring the solution space remain challenging. LLMs struggle to adjust plans when faced with unexpected errors, making them less robust compared to humans who learn from trial and error.
