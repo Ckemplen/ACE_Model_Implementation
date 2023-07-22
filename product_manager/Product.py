@@ -1,3 +1,5 @@
+import logging
+
 class Product:
     """
     Base class for all products.
@@ -16,6 +18,33 @@ class Product:
         self.description = description
         self.required_resources = required_resources if required_resources else []
         self.required_capabilities = required_capabilities if required_capabilities else []
+
+        # Set up logging
+        self.logger = logging.getLogger(name)  # Create a logger for this layer
+        self.logger.setLevel(logging.DEBUG)  # Set the logging level
+
+        # Create a console handler
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.DEBUG)
+
+        # Create a file handler
+        fh = logging.FileHandler('application.log')
+        fh.setLevel(logging.DEBUG)
+
+        # Create a formatter
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+        # Add the formatter to the console handler
+        ch.setFormatter(formatter)
+
+        # Add the formatter to the file handler
+        fh.setFormatter(formatter)
+
+        # Add the console handler to the logger
+        self.logger.addHandler(ch)
+
+        # Add the file handler to the logger
+        self.logger.addHandler(fh)
 
     def draft(self):
         """

@@ -1,4 +1,10 @@
+"""
+Credit to https://github.com/JayZeeDesign/researcher-gpt/tree/main for creating the core search, scrape,
+summarise chain of logic that this capability uses.
+"""
+
 import os
+from dotenv import load_dotenv
 
 from ..Capability import Capability
 
@@ -19,23 +25,53 @@ import requests
 import json
 from langchain.schema import SystemMessage
 
-brwoserless_api_key = os.environ["BROWSERLESS_API_KEY"]
-serper_api_key = os.environ["SERP_API_KEY"]
+load_dotenv(dotenv_path="vars/.env")
+browserless_api_key = os.getenv("BROWSERLESS_API_KEY")
+serper_api_key = os.getenv("SERP_API_KEY")
+
+
+class SystemState:
+    def __init__(self):
+        self.api_calls = {
+            "search_api": 0,
+            "browserless_api": 0,
+            # Add any other APIs here
+        }
+
+    def increment_api_calls(self, api_name):
+        if api_name in self.api_calls:
+            self.api_calls[api_name] += 1
+        else:
+            raise ValueError(f"Unknown API: {api_name}")
+
+
+system_state = SystemState()
+
 
 class GoogleSearchScrapeResearchCapability(Capability):
+    def __init__(self):
+        super().__init__(name="GoogleSearchScrapeResearchCapability",
+                         description="Can query google, scrape the resulting pages, and pull all info into a research summary.")
 
-    def __init__(self, query):
-        self.query = query
+        self.query = None or Query
         self.total_cost = 0
         self.total_tokens = 0
         self.prompt_tokens = 0
         self.completion_tokens = 0
+
+        self.system_state = system_state
+
+    def update_query(self, new_query):
+        self.logger.DEBUG(f"Replacing existing query: {self.query} with new_query: {new_query}")
+        self.query = new_query
 
     def execute(self):
         # also should implement logic for storing outputs longer term etc
         with get_openai_callback() as cb:
             content = agent({"input": self.query})
             actual_content = content['output']
+
+            self.logger.DEBUG(f"Query returned following content:\n{actual_content}")
 
             print(f"Total Tokens: {cb.total_tokens}")
             print(f"Prompt Tokens: {cb.prompt_tokens}")
@@ -45,14 +81,15 @@ class GoogleSearchScrapeResearchCapability(Capability):
             self.total_tokens += cb.total_tokens
             self.prompt_tokens += cb.prompt_tokens
             self.completion_tokens += cb.completion_tokens
-            self.total_cost += cb.total_cost
 
-        return actual_content, cb
+            self.total_cost += cb.total_cost
+            self.total_cost += (0.01 * self.system_state.api_calls['search_api'])
+            self.total_cost += (0.0025 * self.system_state.api_calls['browserless_api'])
+
+        return actual_content
 
 
 # 1. Tool for search
-
-
 def search(query):
     url = "https://google.serper.dev/search"
 
@@ -67,13 +104,15 @@ def search(query):
 
     response = requests.request("POST", url, headers=headers, data=payload)
 
+    system_state.increment_api_calls('search_api')
+
     print(response.text)
 
     return response.text
 
 
 # 2. Tool for scraping
-def scrape_website(objective: str, url: str):
+def scrape_website(self, objective: str, url: str):
     # scrape website, and also will summarize the content based on objective if the content is too large
     # objective is the original objective & task that user give to the agent, url is the url of the website to be scraped
 
@@ -93,8 +132,9 @@ def scrape_website(objective: str, url: str):
     data_json = json.dumps(data)
 
     # Send the POST request
-    post_url = f"https://chrome.browserless.io/content?token={brwoserless_api_key}"
+    post_url = f"https://chrome.browserless.io/content?token={browserless_api_key}"
     response = requests.post(post_url, headers=headers, data=data_json)
+    system_state.increment_api_calls('browserless_api')
 
     # Check the response status code
     if response.status_code == 200:
@@ -103,7 +143,7 @@ def scrape_website(objective: str, url: str):
         print("CONTENT:", text)
 
         if len(text) > 10000:
-            output = summary(objective, text)
+            output = self.summary(objective, text)
             return output
         else:
             return text
@@ -197,3 +237,6 @@ agent = initialize_agent(
     agent_kwargs=agent_kwargs,
     memory=memory,
 )
+
+class Query(BaseModel):
+    query: str
