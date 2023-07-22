@@ -1,4 +1,4 @@
-from . import Resource
+from resource_manager import Resource
 
 
 class CurrencyResource(Resource):

@@ -1,4 +1,4 @@
-from . import Capability
+from capability_manager import Capability
 
 
 class EthicalDecisionMakingCapability(Capability):
