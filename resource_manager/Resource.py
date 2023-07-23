@@ -1,4 +1,7 @@
 import logging
+import pathlib
+
+project_root = pathlib.Path(__file__).parent.parent.resolve()
 class Resource:
     """
     Base class for all resources.
@@ -18,6 +21,10 @@ class Resource:
         self.used = used # optional as may or may not be relevant, defaults to 0
         self.budget: float = budget # refers to currency so is optional as may not apply to all resources, default to 0
 
+        # storage allocated for the resource class to make it
+        # easier to organise and track data stored by and for resources.
+        self.storage_root = f"{project_root}/storage/resources/{self.name}"
+
         # Set up logging
         self.logger = logging.getLogger(name)  # Create a logger for this layer
         self.logger.setLevel(logging.DEBUG)  # Set the logging level
@@ -27,7 +34,7 @@ class Resource:
         ch.setLevel(logging.DEBUG)
 
         # Create a file handler
-        fh = logging.FileHandler('application.log')
+        fh = logging.FileHandler(f'{project_root}/application.log')
         fh.setLevel(logging.DEBUG)
 
         # Create a formatter
@@ -44,6 +51,8 @@ class Resource:
 
         # Add the file handler to the logger
         self.logger.addHandler(fh)
+
+        self.logger.debug(f"Instance of {name} resource created.")
 
     def use(self, amount):
         """

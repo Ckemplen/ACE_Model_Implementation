@@ -18,8 +18,7 @@ class WorldStateRssFeedsResource(Resource):
         super().__init__(name="WorldStateRssFeedsResource",
                          description="")
 
-        self.storage_root = f"storage/{self.name}"
-        self.files = glob.glob(f"{self.storage_root}/data/*.yaml")
+        self.yaml_files = glob.glob(f"{self.storage_root}/data/*.yaml")
 
         self.feeds = ['http://feeds.bbci.co.uk/news/rss.xml',
                       'http://feeds.reuters.com/reuters/technologyNews']
@@ -67,7 +66,7 @@ class WorldStateRssFeedsResource(Resource):
         results = []
 
         # Search each file
-        for filename in self.files:
+        for filename in self.yaml_files:
             with open(filename, 'r') as file:
                 entry = yaml.safe_load(file)
 

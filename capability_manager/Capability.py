@@ -1,4 +1,7 @@
 import logging
+import pathlib
+
+project_root = pathlib.Path(__file__).parent.parent.resolve()
 class Capability:
     """
     Base class for all capabilities.
@@ -14,6 +17,10 @@ class Capability:
         self.name = name
         self.description = description
 
+        # storage allocated for the capabilities class to make it
+        # easier to organise and track data stored by and for capabilities.
+        self.storage_root = f"{project_root}/storage/capabilities/{self.name}"
+
         # Set up logging
         self.logger = logging.getLogger(name)  # Create a logger for this layer
         self.logger.setLevel(logging.DEBUG)  # Set the logging level
@@ -23,7 +30,7 @@ class Capability:
         ch.setLevel(logging.DEBUG)
 
         # Create a file handler
-        fh = logging.FileHandler('application.log')
+        fh = logging.FileHandler(f'{project_root}application.log')
         fh.setLevel(logging.DEBUG)
 
         # Create a formatter

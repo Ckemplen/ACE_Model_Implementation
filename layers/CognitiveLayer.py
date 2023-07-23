@@ -21,12 +21,14 @@ This implementation is authored by Chris Kemplen: https://github.com/Ckemplen/AC
 import configparser
 import logging
 import queue
+import pathlib
 
 from reasoning_engines.GPTModels import GPTModel
 from capability_manager import CapabilityManager
 from resource_manager import ResourceManager
 from product_manager import ProductManager
 
+project_root = pathlib.Path(__file__).parent.parent.resolve()
 
 class CognitiveLayer:
     """
@@ -75,7 +77,7 @@ class CognitiveLayer:
         ch.setLevel(logging.DEBUG)
 
         # Create a file handler
-        fh = logging.FileHandler('application.log')
+        fh = logging.FileHandler(f'{project_root}application.log')
         fh.setLevel(logging.DEBUG)
 
         # Create a formatter

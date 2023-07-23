@@ -1,4 +1,7 @@
 import logging
+import pathlib
+
+project_root = pathlib.Path(__file__).parent.parent.resolve()
 
 class Product:
     """
@@ -19,6 +22,10 @@ class Product:
         self.required_resources = required_resources if required_resources else []
         self.required_capabilities = required_capabilities if required_capabilities else []
 
+        # storage allocated for the product class to make it
+        # easier to organise and track data stored by and for products.
+        self.storage_root = f"{project_root}/storage/products/{self.name}"
+
         # Set up logging
         self.logger = logging.getLogger(name)  # Create a logger for this layer
         self.logger.setLevel(logging.DEBUG)  # Set the logging level
@@ -28,7 +35,7 @@ class Product:
         ch.setLevel(logging.DEBUG)
 
         # Create a file handler
-        fh = logging.FileHandler('application.log')
+        fh = logging.FileHandler(f'{project_root}/application.log')
         fh.setLevel(logging.DEBUG)
 
         # Create a formatter
