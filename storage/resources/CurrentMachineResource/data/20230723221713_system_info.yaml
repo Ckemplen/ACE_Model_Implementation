@@ -1,0 +1,25 @@
+CPU Info:
+  Current Frequency: 3600.0
+  Max Frequency: 3600.0
+  Min Frequency: 0.0
+  Physical cores: 6
+  Total CPU Usage: 6.7
+  Total cores: 12
+Memory Info:
+  Available: 17.75GB
+  Percentage: 44.4
+  SWAP:
+    Free: 5.79GB
+    Percentage: 7.1
+    Total: 6.24GB
+    Used: 455.94MB
+  Total: 31.95GB
+  Used: 14.20GB
+System Info:
+  Boot Time: 2023/07/20 10:24:30
+  Machine: AMD64
+  Node Name: Rocinante
+  Processor: AMD64 Family 23 Model 8 Stepping 2, AuthenticAMD
+  Release: '10'
+  System: Windows
+  Version: 10.0.23506
