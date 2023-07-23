@@ -7,9 +7,9 @@
   - [Workflow Illustration](#workflow-illustration)
   - [Key Concepts](#key-concepts)
   - [Development Goals & Test Use Cases](#development-goals-and-test-use-cases-ideas)
-- [Contribute](#contribute)
-  - [Core functionality for architecture](#core-functionality-for-architecture)
-  - [GUI and UX](#gui-and-ux)
+- [Project Structure](#project-structure)
+  - [Directory tree](#directory-tree)
+  - [Structure description](#structure-description)
 
 ## Overview ##
 The aim is to create a python implementation of the Autonomous Cognitive Entity (ACE) model that is modular in nature so that LLMs / resources / capabilities can be swapped in and out. A modular design should also make it is easier for the program to implement polymorphic features, and also easier to be slotted into various forms of deployment and UI depending on the use case. This implementation uses the ACE model as the high level architecture and structure of the program, uses Langchain for more low level management of prompt engineering and interfacing with LLMs, and then will use the concepts of Resources, Capabilities and Products to abstract away the lower level functionality. The program should then think in terms of what tangible useful products it can create with the resources and capabilities that it already has or can make.
@@ -204,3 +204,110 @@ The early test cases suggested below both fit into the category of well understo
 * Task Prosecution Layer: The task prosecution layer would be responsible for executing the tasks. This could involve calling on different capabilities as needed, and managing resources such as time.
 
 In each case, the ACE model could assist the user by asking for necessary information, suggesting text for the documents, and providing feedback on drafts. It could also remind the user of deadlines and help keep the process on track.
+
+## Project Structure ##
+### Directory Tree ###
+- `ACE_Model_Implementation`
+    - `README.md`
+    - `requirements.txt`
+    - `example.env`
+    - `LICENSE`
+    - `.gitignore`
+    - `config.ini`
+    - `resource_manager`
+        - `__init__.py`
+        - `ResourceManager.py`
+        - `Resource.py`
+        - `dynamically_created_resources`
+            - `__init__.py`
+        - `built_in_resources`
+            - `CurrencyResource.py`
+            - `SemanticMemoryResource.py`
+            - `UserInteractionPlanResource.py`
+            - `WorldStateRssFeedsResource.py`
+            - `__init__.py`
+    - `orchestration`
+        - `__init__.py`
+        - `CognitiveArchitecture.py`
+        - `test_orchestration.py`
+        - `LayerHierarchy.py`
+    - `product_manager`
+        - `__init__.py`
+        - `ProductManager.py`
+        - `Product.py`
+        - `dynamically_created_products`
+            - `__init__.py`
+        - `built_in_products`
+            - `StakeholderAnalysisProduct.py`
+            - `BudgetProposalProduct.py`
+            - `ResourcePlanProduct.py`
+            - `BusinessCaseProduct.py`
+            - `ProjectCharterProduct.py`
+            - `ProjectApprovalDocumentationProduct.py`
+            - `ProcurementStrategyProduct.py`
+            - `__init__.py`
+            - `ProjectScopeStatementProduct.py`
+            - `CommunicationPlanProduct.py`
+            - `LegalRegulatoryReviewProduct.py`
+            - `ProjectOrganisationChartProduct.py`
+            - `QualityManagementPlanProduct.py`
+            - `RiskManagementPlanProduct.py`
+            - `ProjectScheduleProduct.py`
+    - `capability_manager`
+        - `__init__.py`
+        - `Capability.py`
+        - `CapabilityManager.py`
+        - `test_capabilities.py`
+        - `dynamically_created_capabilities`
+            - `__init__.py`
+        - `built_in_capabilities`
+            - `MermaidGanttChartCapability.py`
+            - `GenerateUserInteractionPlanCapability.py`
+            - `EthicalDecisionMakingCapability.py`
+            - `GoogleSearchScrapeResearchCapability.py`
+            - `UpdateUserInteractionPlanCapability.py`
+            - `InitialAssessmentCapability.py`
+            - `__init__.py`
+    - `reasoning_engines`
+        - `__init__.py`
+        - `GPTModels.py`
+    - `layers`
+        - `__init__.py`
+        - `AspirationalLayer.py`
+        - `GlobalStrategyLayer.py`
+        - `AgentModelLayer.py`
+        - `ExecutiveFunctionLayer.py`
+        - `CognitiveControlLayer.py`
+        - `TaskProsecutionLayer.py`
+        - `test_layers.py`
+        - `CognitiveLayer.py`
+
+
+### Structure Description ###
+
+This project is organized into several key modules, each containing various classes and scripts related to different aspects of the ACE model. 
+
+
+#### layers ####
+
+This directory contains classes related to the layers of the ACE model, including `AspirationalLayer`, `GlobalStrategyLayer`, `AgentModelLayer`, `ExecutiveFunctionLayer`, `CognitiveControlLayer`, `TaskProsecutionLayer`, and a test script.
+
+#### orchestration ####
+
+This directory contains classes related to the orchestration of the ACE model, including `CognitiveArchitecture.py`, `LayerHierarchy.py`, and a test script.
+
+#### resource_manager ####
+
+This directory contains classes related to managing resources. It includes `ResourceManager.py`, `Resource.py`, and subdirectories for dynamically created resources and predefined resources such as `CurrencyResource`, `SemanticMemoryResource`, `UserInteractionPlanResource`, and `WorldStateRssFeedsResource`.
+
+#### capability_manager ####
+
+This directory contains classes related to managing capabilities. It includes `Capability.py`, `CapabilityManager.py`, and subdirectories for dynamically created capabilities and predefined capabilities such as `MermaidGanttChartCapability`, `GenerateUserInteractionPlanCapability`, `EthicalDecisionMakingCapability`, and others.
+
+#### product_manager ####
+
+This directory contains classes related to managing products. It includes `ProductManager.py`, `Product.py`, and subdirectories for dynamically created products and predefined products such as `StakeholderAnalysisProduct`, `BudgetProposalProduct`, `ResourcePlanProduct`, and others.
+
+#### reasoning_engines ####
+
+This directory contains logic and interfaces for reasoning engines, including `GPTModels.py`.
