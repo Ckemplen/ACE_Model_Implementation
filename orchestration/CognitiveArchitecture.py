@@ -20,12 +20,14 @@ This implementation is authored by Chris Kemplen: https://github.com/Ckemplen/AC
 
 import logging
 import threading
+import pathlib
 
 from layers import (AspirationalLayer, GlobalStrategyLayer, AgentModelLayer, ExecutiveFunctionLayer,
                     CognitiveControlLayer, TaskProsecutionLayer)
 
 from .LayerHierarchy import LayerHierarchy
 
+project_root = pathlib.Path(__file__).parent.parent.resolve()
 
 class CognitiveArchitecture:
     """
@@ -67,7 +69,7 @@ class CognitiveArchitecture:
         ch.setLevel(logging.DEBUG)
 
         # Create a file handler
-        fh = logging.FileHandler('application.log')
+        fh = logging.FileHandler(f'{project_root}/application.log')
         fh.setLevel(logging.DEBUG)
 
         # Create a formatter
