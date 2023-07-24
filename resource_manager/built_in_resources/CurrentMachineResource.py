@@ -8,6 +8,18 @@ import glob
 
 
 class CurrentMachineResource(Resource):
+    """
+    Q: What does this resource provide?
+    A: A list of world news result objects, each result has a title, summary, source, link and publish date.
+
+    Q: What is this resource for?
+    A: This resource enables layers to get a quick high level overview of the current world state from the
+    perspective of several popular RSS feeds.
+
+    Q: How might this resource be extended?
+    A: A more diverse set of RSS news sources could be added, it could be made easier to query by date etc.
+    Currently, it is a snapshot in time. The resource could be paired with longer term memory if that fits the use case.
+    """
     def __init__(self):
         super().__init__(name="CurrentMachineResource", description="")
         self.system_info = {}
