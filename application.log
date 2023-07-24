@@ -30,3 +30,17 @@
 2023-07-23 22:16:12,443 - CurrentMachineResource - DEBUG - Instance of CurrentMachineResource resource created.
 2023-07-23 22:18:54,675 - CurrentMachineResource - DEBUG - Instance of CurrentMachineResource resource created.
 2023-07-23 22:18:55,116 - CurrentMachineResource - DEBUG - Trimming older system info files as limit exceeded.
+2023-07-24 21:26:46,663 - WorldStateRssFeedsResource - DEBUG - Instance of WorldStateRssFeedsResource resource created.
+2023-07-24 21:29:51,718 - WorldStateRssFeedsResource - DEBUG - Instance of WorldStateRssFeedsResource resource created.
+2023-07-24 21:32:45,437 - WorldStateRssFeedsResource - DEBUG - Instance of WorldStateRssFeedsResource resource created.
+2023-07-24 21:32:45,762 - WorldStateRssFeedsResource - DEBUG - Query with keyword: None and date: None returned 51 results
+2023-07-24 21:32:45,762 - WorldStateRssFeedsResource - DEBUG - Result 1: The BBC's Lora Jones tells you four things you can do, if your landlord asks for more money.
+2023-07-24 21:33:17,029 - WorldStateRssFeedsResource - DEBUG - Instance of WorldStateRssFeedsResource resource created.
+2023-07-24 21:33:17,265 - WorldStateRssFeedsResource - DEBUG - Query with [keyword: None, and date: None] returned 51 results
+2023-07-24 21:33:17,265 - WorldStateRssFeedsResource - DEBUG - Result 1: The BBC's Lora Jones tells you four things you can do, if your landlord asks for more money.
+2023-07-24 21:43:23,533 - WorldStateRssFeedsResource - DEBUG - Instance of WorldStateRssFeedsResource resource created.
+2023-07-24 21:43:23,783 - WorldStateRssFeedsResource - DEBUG - Query with [keyword: None, date: None] returned 51 results
+2023-07-24 21:43:23,783 - WorldStateRssFeedsResource - DEBUG - Sample Result: Some airlines are continuing to fly to the islands but can you cancel your flight and get a refund?
+2023-07-24 21:44:05,766 - WorldStateRssFeedsResource - DEBUG - Instance of WorldStateRssFeedsResource resource created.
+2023-07-24 21:44:05,957 - WorldStateRssFeedsResource - DEBUG - Query with [keyword: None, date: None] returned 51 results
+2023-07-24 21:44:05,957 - WorldStateRssFeedsResource - DEBUG - Sample Result: Rhodes wildfires are 'like a biblical catastrophe'
