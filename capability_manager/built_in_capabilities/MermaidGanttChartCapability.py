@@ -1,10 +1,16 @@
-from capability_manager import Capability
+from ..Capability import Capability
 
 
 class MermaidGanttChartCapability(Capability):
     """
     Create mermaid representations of plans.
     """
+
+    def __init__(self):
+        super().__init__(
+            name="MermaidGanttChartCapability",
+            description="Create mermaid Gantt charts from planning data.",
+        )
 
     def execute(self):
         """

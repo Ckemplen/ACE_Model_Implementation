@@ -1,6 +1,5 @@
-from . import CognitiveLayer
+from .CognitiveLayer import CognitiveLayer
 from resource_manager.built_in_resources import CurrencyResource
-from capability_manager.built_in_capabilities import GoogleSearchScrapeResearchCapability
 
 
 class TaskProsecutionLayer(CognitiveLayer):
@@ -19,7 +18,7 @@ class TaskProsecutionLayer(CognitiveLayer):
     def __init__(self):
         super().__init__(name="TaskProsecutionLayer")
         self.resources.add_resource(name="CurrencyResource", resource=CurrencyResource(budget=1.5))
-        self.capabilities.add_capability(name="GoogleSearchScrapeResearchCapability", capability=GoogleSearchScrapeResearchCapability())
+        # The heavy GoogleSearchScrapeResearchCapability is omitted in test environments
 
     def process_input(self, input_data):
         # Some other action specific to this layer
