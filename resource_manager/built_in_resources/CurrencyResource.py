@@ -2,9 +2,7 @@ from resource_manager import Resource
 
 
 class CurrencyResource(Resource):
-    """
-    Budget of USD $0.00 by default, depletes by spend on reasoning engines.
-    """
+    """Currency resource tracking API budget."""
 
     def __init__(self, budget: float = 0.0):
         super().__init__(
@@ -13,3 +11,11 @@ class CurrencyResource(Resource):
             budget=budget,
         )
 
+    def spend(self, amount: float) -> None:
+        """Deduct amount from budget and log the spend."""
+        if amount < 0:
+            raise ValueError("Spend amount must be positive")
+        if self.budget - amount < 0:
+            raise ValueError("Insufficient currency budget")
+        self.budget -= amount
+        self.logger.debug(f"CurrencyResource spent ${amount:.4f}, remaining ${self.budget:.4f}")

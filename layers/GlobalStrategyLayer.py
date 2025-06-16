@@ -1,4 +1,5 @@
 from .CognitiveLayer import CognitiveLayer
+from resource_manager import CurrencyResource
 
 class GlobalStrategyLayer(CognitiveLayer):
     """
@@ -13,6 +14,7 @@ class GlobalStrategyLayer(CognitiveLayer):
 
     def __init__(self):
         super().__init__(name="GlobalStrategyLayer")
+        self.resources.add_resource(name="CurrencyResource", resource=CurrencyResource(budget=1.5))
         self.strategy = None
         self.goals = None
 
@@ -28,8 +30,13 @@ class GlobalStrategyLayer(CognitiveLayer):
 
         self.generate_plan("something")
 
-        # Execute an action using the GPT model
-        result = self.GPTModel.execute("something")
+        currency = self.resources.get_resource("CurrencyResource")
+        if currency and currency.budget > 0:
+            messages = [{"role": "user", "content": "something"}]
+            result = self.GPTModel.generate(messages, currency)
+        else:
+            self.logger.warning("Insufficient funds for model call")
+            result = None
 
         return result
 
