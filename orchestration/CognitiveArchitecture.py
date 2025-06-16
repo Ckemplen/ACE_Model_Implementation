@@ -96,43 +96,42 @@ class CognitiveArchitecture:
             print(f'{key}: running={thread.running()}, done={thread.done()}')
 
     def start_execution(self):
-        """
-        Start the execution of all layers in separate threads.
-        """
-        # Create a thread for each layer
-        aspirational_thread = threading.Thread(target=self.aspirational_layer.main_loop)
+        """Start all layers in separate threads."""
+        aspirational_thread = threading.Thread(target=self.aspirational_layer.main_loop, daemon=True)
         self.threads[LayerHierarchy.ASPIRATIONAL] = aspirational_thread
 
-        global_strategy_thread = threading.Thread(target=self.global_strategy_layer.main_loop)
+        global_strategy_thread = threading.Thread(target=self.global_strategy_layer.main_loop, daemon=True)
         self.threads[LayerHierarchy.GLOBAL_STRATEGY] = global_strategy_thread
 
-        agent_model_thread = threading.Thread(target=self.agent_model_layer.main_loop)
+        agent_model_thread = threading.Thread(target=self.agent_model_layer.main_loop, daemon=True)
         self.threads[LayerHierarchy.AGENT_MODEL] = agent_model_thread
 
-        executive_function_thread = threading.Thread(target=self.executive_function_layer.main_loop)
+        executive_function_thread = threading.Thread(target=self.executive_function_layer.main_loop, daemon=True)
         self.threads[LayerHierarchy.EXECUTIVE_FUNCTION] = executive_function_thread
 
-        cognitive_control_thread = threading.Thread(target=self.cognitive_control_layer.main_loop)
+        cognitive_control_thread = threading.Thread(target=self.cognitive_control_layer.main_loop, daemon=True)
         self.threads[LayerHierarchy.COGNITIVE_CONTROL] = cognitive_control_thread
 
-        task_prosecution_thread = threading.Thread(target=self.task_prosecution_layer.main_loop)
+        task_prosecution_thread = threading.Thread(target=self.task_prosecution_layer.main_loop, daemon=True)
         self.threads[LayerHierarchy.TASK_PROSECUTION] = task_prosecution_thread
 
-        # Start all threads
-        aspirational_thread.start()
-        global_strategy_thread.start()
-        agent_model_thread.start()
-        executive_function_thread.start()
-        cognitive_control_thread.start()
-        task_prosecution_thread.start()
+        for t in self.threads.values():
+            t.start()
 
-        # Wait for all threads to finish
-        aspirational_thread.join()
-        global_strategy_thread.join()
-        agent_model_thread.join()
-        executive_function_thread.join()
-        cognitive_control_thread.join()
-        task_prosecution_thread.join()
+    def stop_execution(self):
+        """Signal all layers to stop and wait for threads to finish."""
+        for layer in [
+            self.aspirational_layer,
+            self.global_strategy_layer,
+            self.agent_model_layer,
+            self.executive_function_layer,
+            self.cognitive_control_layer,
+            self.task_prosecution_layer,
+        ]:
+            layer.stop()
+
+        for t in self.threads.values():
+            t.join()
 
     def process_input(self, input_data):
         """

@@ -1,6 +1,8 @@
 from flask import Flask, request, redirect, url_for, render_template_string
 import threading
 import time
+import signal
+import atexit
 
 from orchestration import CognitiveArchitecture
 
@@ -8,6 +10,11 @@ app = Flask(__name__)
 
 # Instantiate the cognitive architecture
 architecture = CognitiveArchitecture()
+
+# Control events for background threads
+stop_event = threading.Event()
+arch_thread = None
+resource_thread = None
 
 # Simple in-memory list of tasks
 tasks = []
@@ -20,12 +27,14 @@ remaining_currency = 0.0
 def run_architecture():
     """Start the cognitive architecture execution."""
     architecture.start_execution()
+    stop_event.wait()
+    architecture.stop_execution()
 
 
 def update_resources():
     """Periodically update resource status."""
     global remaining_currency
-    while True:
+    while not stop_event.is_set():
         if currency_resource:
             try:
                 remaining_currency = currency_resource.get_remaining()
@@ -34,9 +43,33 @@ def update_resources():
         time.sleep(5)
 
 
+def start_threads():
+    global arch_thread, resource_thread
+    arch_thread = threading.Thread(target=run_architecture, daemon=True)
+    resource_thread = threading.Thread(target=update_resources, daemon=True)
+    arch_thread.start()
+    resource_thread.start()
+
+
+def stop_threads(*args):
+    stop_event.set()
+    if arch_thread:
+        arch_thread.join()
+    if resource_thread:
+        resource_thread.join()
+
+
 # Start background threads
-threading.Thread(target=run_architecture, daemon=True).start()
-threading.Thread(target=update_resources, daemon=True).start()
+start_threads()
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    stop_threads()
+
+# Ensure background threads shut down with the Flask app
+atexit.register(stop_threads)
+signal.signal(signal.SIGINT, stop_threads)
+signal.signal(signal.SIGTERM, stop_threads)
 
 
 @app.route('/tasks')

@@ -22,6 +22,8 @@ import configparser
 import logging
 import queue
 import pathlib
+import threading
+import time
 
 from reasoning_engines.GPTModels import GPTModel
 from capability_manager import CapabilityManager
@@ -67,6 +69,9 @@ class CognitiveLayer:
 
         self.total_tokens: int = 0
         self.total_cost: float = 0
+
+        self._stop_event = threading.Event()
+        self.running = False
 
         # Set up logging
         self.logger = logging.getLogger(name)  # Create a logger for this layer
@@ -250,4 +255,19 @@ class CognitiveLayer:
         """
 
         raise NotImplementedError("Subclasses must implement create_product method.")
+
+    def stop(self):
+        """Signal the main loop to stop."""
+        self._stop_event.set()
+
+    def main_loop(self):
+        """Run the layer until stop is requested."""
+        self.running = True
+        while not self._stop_event.is_set():
+            try:
+                self.execute()
+            except Exception as e:
+                self.logger.error(f"Error in main loop: {e}")
+            time.sleep(0.1)
+        self.running = False
 
