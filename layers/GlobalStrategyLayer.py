@@ -1,4 +1,4 @@
-from . import CognitiveLayer
+from .CognitiveLayer import CognitiveLayer
 
 class GlobalStrategyLayer(CognitiveLayer):
     """

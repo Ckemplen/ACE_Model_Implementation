@@ -1,4 +1,4 @@
-from . import CognitiveLayer
+from .CognitiveLayer import CognitiveLayer
 from resource_manager import CurrencyResource
 import capability_manager
 

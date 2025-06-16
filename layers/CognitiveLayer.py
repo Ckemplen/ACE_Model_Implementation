@@ -77,7 +77,7 @@ class CognitiveLayer:
         ch.setLevel(logging.DEBUG)
 
         # Create a file handler
-        fh = logging.FileHandler(f'{project_root}application.log')
+        fh = logging.FileHandler(f'{project_root}/application.log')
         fh.setLevel(logging.DEBUG)
 
         # Create a formatter
