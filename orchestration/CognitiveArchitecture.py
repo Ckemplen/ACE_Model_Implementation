@@ -92,8 +92,8 @@ class CognitiveArchitecture:
         Check the status of all threads.
         """
         # Method to aid debug by checking on status of all threads
-        for key, thread in self.threads:
-            print(f'{key}: running={thread.running()}, done={thread.done()}')
+        for key, thread in self.threads.items():
+            print(f"{key}: alive={thread.is_alive()}")
 
     def start_execution(self):
         """

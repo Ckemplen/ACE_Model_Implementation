@@ -1,5 +1,6 @@
 from .CognitiveLayer import CognitiveLayer
 from resource_manager import CurrencyResource
+import time
 
 
 class CognitiveControlLayer(CognitiveLayer):
@@ -76,3 +77,15 @@ class CognitiveControlLayer(CognitiveLayer):
         """This method could be used to implement strategies for managing frustration, such as switching tasks or
         seeking help."""
         pass
+
+    def main_loop(self):
+        """Basic execution loop for the layer."""
+        while True:
+            try:
+                self.process_input("loop")
+                self.execute()
+            except Exception as e:
+                self.logger.error(f"Main loop error: {e}")
+                break
+            time.sleep(0.1)
+

@@ -1,5 +1,6 @@
 from .CognitiveLayer import CognitiveLayer
 from resource_manager import CurrencyResource
+import time
 
 class GlobalStrategyLayer(CognitiveLayer):
     """
@@ -74,3 +75,14 @@ class GlobalStrategyLayer(CognitiveLayer):
     def assess_global_context(self):
         """This method could be used to evaluate the current global context and modify the strategy accordingly."""
         pass
+
+    def main_loop(self):
+        """Basic execution loop for the layer."""
+        while True:
+            try:
+                self.process_input("loop")
+                self.execute()
+            except Exception as e:
+                self.logger.error(f"Main loop error: {e}")
+                break
+            time.sleep(0.1)

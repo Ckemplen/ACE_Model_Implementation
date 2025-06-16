@@ -1,5 +1,6 @@
 from .CognitiveLayer import CognitiveLayer
 from resource_manager import CurrencyResource
+import time
 
 class AgentModelLayer(CognitiveLayer):
     """
@@ -76,3 +77,14 @@ class AgentModelLayer(CognitiveLayer):
     def learn(self):
         """This method could be used to incorporate new knowledge into the agent's belief system."""
         pass
+
+    def main_loop(self):
+        """Basic execution loop for the layer."""
+        while True:
+            try:
+                self.process_input("loop")
+                self.execute()
+            except Exception as e:
+                self.logger.error(f"Main loop error: {e}")
+                break
+            time.sleep(0.1)
