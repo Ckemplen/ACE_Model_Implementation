@@ -44,3 +44,4 @@
 2023-07-24 21:44:05,766 - WorldStateRssFeedsResource - DEBUG - Instance of WorldStateRssFeedsResource resource created.
 2023-07-24 21:44:05,957 - WorldStateRssFeedsResource - DEBUG - Query with [keyword: None, date: None] returned 51 results
 2023-07-24 21:44:05,957 - WorldStateRssFeedsResource - DEBUG - Sample Result: Rhodes wildfires are 'like a biblical catastrophe'
+2025-06-16 15:43:14,138 - TempRes - DEBUG - Instance of TempRes resource created.
