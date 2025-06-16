@@ -311,3 +311,16 @@ This directory contains classes related to managing products. It includes `Produ
 #### reasoning_engines ####
 
 This directory contains logic and interfaces for reasoning engines, including `GPTModels.py`.
+
+## Environment Variables ##
+
+The application expects several API keys to be available through environment
+variables:
+
+- `SERP_API_KEY`
+- `BROWSERLESS_API_KEY`
+- `OPENROUTER_API_KEY`
+
+Copy `example.env` and populate these values, then place the resulting file in a
+`vars/` directory at the project root. Keep the `vars/` directory unversioned so
+your credentials remain private.
