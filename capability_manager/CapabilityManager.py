@@ -1,5 +1,4 @@
 import os
-import inspect
 
 from .Capability import Capability
 
@@ -75,14 +74,18 @@ class CapabilityManager:
         new_class = self.create_capability_class(name, description)
         new_class.is_built_in = False  # Add a property to indicate that this is not a built-in class
 
-        # Generate the Python code for the new class
-        class_code = inspect.getsource(new_class)
+        if required_imports is None:
+            required_imports = ""
 
-        # Define the necessary import statements
-        import_code = (required_imports + "\n"
-                                          "from capability_manager.Capability import Capability\n")
+        import_code = required_imports + "\nfrom ..Capability import Capability\n\n"
 
-        # Combine the import statements and the class code
+        class_code = (
+            f"class {name}(Capability):\n"
+            f"    \"\"\"{description}\"\"\"\n\n"
+            f"    def __init__(self):\n"
+            f"        super().__init__(name=\"{name}\", description=\"{description}\")\n"
+        )
+
         code = import_code + class_code
 
         # Define the module directory
@@ -102,3 +105,5 @@ class CapabilityManager:
         # Write the code to the file
         with open(filename, "w") as file:
             file.write(code)
+
+        return filename

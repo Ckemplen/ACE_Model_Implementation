@@ -1,5 +1,4 @@
 import os
-import inspect
 
 from .Resource import Resource
 
@@ -81,14 +80,18 @@ class ResourceManager:
         new_class = self.create_resource_class(name, description, capacity, used, budget)
         new_class.is_built_in = False  # Add a property to indicate that this is not a built-in class
 
-        # Generate the Python code for the new class
-        class_code = inspect.getsource(new_class)
+        if required_imports is None:
+            required_imports = ""
 
-        # Define the necessary import statements
-        import_code = (required_imports + "\n"
-                                          "from resource_manager.Resource import Resource\n")
+        import_code = required_imports + "\nfrom ..Resource import Resource\n\n"
 
-        # Combine the import statements and the class code
+        class_code = (
+            f"class {name}(Resource):\n"
+            f"    \"\"\"{description}\"\"\"\n\n"
+            f"    def __init__(self, capacity={capacity}, used={used}, budget={budget}):\n"
+            f"        super().__init__(name=\"{name}\", description=\"{description}\", capacity=capacity, used=used, budget=budget)\n"
+        )
+
         code = import_code + class_code
 
         # Define the module directory
@@ -104,3 +107,9 @@ class ResourceManager:
         while os.path.exists(filename):
             filename = os.path.join(module, f"{name}V{i}Resource.py")
             i += 1
+
+        # Write the code to the file
+        with open(filename, "w") as file:
+            file.write(code)
+
+        return filename
