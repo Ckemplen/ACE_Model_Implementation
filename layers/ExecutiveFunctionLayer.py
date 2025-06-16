@@ -1,6 +1,7 @@
 from .CognitiveLayer import CognitiveLayer
 from resource_manager import CurrencyResource
 import capability_manager
+import time
 
 class ExecutiveFunctionLayer(CognitiveLayer):
     """
@@ -79,3 +80,14 @@ class ExecutiveFunctionLayer(CognitiveLayer):
         """This method could be used to make predictions about future events or states, which can then be used in
         planning."""
         pass
+
+    def main_loop(self):
+        """Basic execution loop for the layer."""
+        while True:
+            try:
+                self.process_input("loop")
+                self.execute()
+            except Exception as e:
+                self.logger.error(f"Main loop error: {e}")
+                break
+            time.sleep(0.1)

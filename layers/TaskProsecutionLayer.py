@@ -1,5 +1,6 @@
 from .CognitiveLayer import CognitiveLayer
 from resource_manager.built_in_resources import CurrencyResource
+import time
 
 
 class TaskProsecutionLayer(CognitiveLayer):
@@ -71,3 +72,15 @@ class TaskProsecutionLayer(CognitiveLayer):
 
     def handle_success(self):
         pass
+
+    def main_loop(self):
+        """Basic execution loop for the layer."""
+        while True:
+            try:
+                self.process_input("loop")
+                self.execute()
+            except Exception as e:
+                self.logger.error(f"Main loop error: {e}")
+                break
+            time.sleep(0.1)
+

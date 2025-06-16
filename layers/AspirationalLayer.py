@@ -1,6 +1,7 @@
 from .CognitiveLayer import CognitiveLayer
 from resource_manager import CurrencyResource
 from capability_manager import EthicalDecisionMakingCapability
+import time
 
 class AspirationalLayer(CognitiveLayer):
     """
@@ -76,3 +77,14 @@ class AspirationalLayer(CognitiveLayer):
     def assess_ethics(self):
         """This method could be used to evaluate the ethical implications of a proposed action or decision."""
         pass
+
+    def main_loop(self):
+        """Basic execution loop for the layer."""
+        while True:
+            try:
+                self.process_input("loop")
+                self.execute()
+            except Exception as e:
+                self.logger.error(f"Main loop error: {e}")
+                break
+            time.sleep(0.1)
