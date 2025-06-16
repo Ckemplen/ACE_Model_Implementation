@@ -1,13 +1,38 @@
 # GPTModels.py
 import tiktoken
+from .OpenRouterModel import OpenRouterModel
 
 
 class GPTModel:
 
-    def __init__(self, model='gpt-3.5'):
-
+    def __init__(self, model: str = 'gpt-3.5-turbo'):
         self.model = model
         self.messages = []
+        self.client = OpenRouterModel()
+
+    def choose_model(self, budget: float) -> str:
+        """Select an OpenRouter model based on remaining budget."""
+        if budget > 1:
+            return 'openai/gpt-4'
+        return 'openai/gpt-3.5-turbo'
+
+    def generate(self, messages, currency_resource=None):
+        """Generate a response using OpenRouter and deduct cost."""
+        if currency_resource:
+            model = self.choose_model(currency_resource.budget)
+        else:
+            model = self.model
+        input_tokens, input_cost = self.measure_tokens(messages, model, 'input')
+        if currency_resource and currency_resource.budget < input_cost:
+            raise ValueError('Insufficient funds')
+        reply = self.client.generate(model=model, messages=messages)
+        output_tokens, output_cost = self.measure_tokens([
+            {"role": "assistant", "content": reply}
+        ], model, 'output')
+        total_cost = input_cost + output_cost
+        if currency_resource:
+            currency_resource.spend(total_cost)
+        return reply
 
     def execute(self, args):
         pass

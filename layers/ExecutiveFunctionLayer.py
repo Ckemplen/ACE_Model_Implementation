@@ -34,8 +34,13 @@ class ExecutiveFunctionLayer(CognitiveLayer):
 
         self.monitor_progress("something")
 
-        # Execute an action using the GPT model
-        result = self.GPTModel.execute("something")
+        currency = self.resources.get_resource("CurrencyResource")
+        if currency and currency.budget > 0:
+            messages = [{"role": "user", "content": "something"}]
+            result = self.GPTModel.generate(messages, currency)
+        else:
+            self.logger.warning("Insufficient funds for model call")
+            result = None
 
         return result
 
